@@ -143,6 +143,37 @@ public class Game {
             for (int j = 0; j < field[0].length; j++) {
                 jframeFields bttn = new jframeFields(i, j);
                 bttn.text = String.valueOf(field[i][j].minesAround);
+                if(bttn.text.equals("0")){
+                    bttn.text = "";
+                }
+                switch (bttn.text){
+                    case "1":
+                        bttn.setForeground(Color.blue);
+                        break;
+                    case "2":
+                        bttn.setForeground(Color.green);
+                        break;
+                    case "3":
+                        bttn.setForeground(Color.red);
+                        break;
+                    case "4":
+                        bttn.setForeground(Color.PINK);
+                        break;
+                    case "5":
+                        bttn.setForeground(Color.orange);
+                        break;
+                    case "6":
+                        bttn.setForeground(Color.cyan);
+                        break;
+                    case "7":
+                        bttn.setForeground(Color.YELLOW);
+                        break;
+                    case "8":
+                        bttn.setForeground(Color.GRAY);
+                        break;
+                    default:
+                        bttn.setForeground(Color.BLACK);
+                }
                 if(field[i][j].isMine){
                     bttn.addMouseListener(new MouseAdapter() {
                         @Override
@@ -151,10 +182,12 @@ public class Game {
                                 if(bttn.ifFlagged){
                                     bttn.setText("");
                                     bttn.ifFlagged = false;
+                                    remainFlags++;
                                 }
-                                else{
+                                else if(remainFlags > 0){
                                     bttn.setText("F");
                                     bttn.ifFlagged = true;
+                                    remainFlags--;
                                 }
                             } if (SwingUtilities.isLeftMouseButton(e)){
                                 for (int i = 0; i < field.length; i++) {
@@ -181,15 +214,21 @@ public class Game {
                                 if(bttn.ifFlagged){
                                     bttn.setText("");
                                     bttn.ifFlagged = false;
+                                    remainFlags++;
                                 }
-                                else{
+                                else if(remainFlags > 0){
                                     bttn.setText("F");
                                     bttn.ifFlagged = true;
+                                    remainFlags--;
                                 }
                             }
                             else if (SwingUtilities.isLeftMouseButton(e)) {
                                 bttn.setText(bttn.text);
+                                if(bttn.text.equals("")){
+                                    bttn.setBackground(Color.lightGray);
+                                }
                                 if(!bttn.clicked){
+                                    fill(bttn.tabX, bttn.tabY);
                                     bttn.clicked = true;
                                     remaining--;
                                     System.out.println("Remaining: "+remaining);
@@ -219,6 +258,147 @@ public class Game {
         buttonPanel.repaint();
         OknoGlowne.add(buttonPanel);
         OknoGlowne.repaint();
+    }
+
+    void fill(int x, int y){
+        if(field[x][y].minesAround == 0){
+            if(x != 0){
+                if(!buttons[x-1][y].clicked){
+                    buttons[x-1][y].setText(String.valueOf(buttons[x-1][y].text));
+                    if(buttons[x-1][y].text.equals("")){
+                        buttons[x-1][y].setBackground(Color.lightGray);
+                    }
+                    buttons[x-1][y].clicked = true;
+                    remaining--;
+                    if(remaining == 0){
+                        OknoGlowne.setTitle("YOU WIN :)");
+                    }
+                    System.out.println("Remaining: "+remaining);
+                    if(field[x-1][y].minesAround == 0){
+                        fill(x-1, y);
+                    }
+                }
+                if(y != 0){
+                    if(!buttons[x-1][y-1].clicked){
+                        buttons[x-1][y-1].setText(String.valueOf(buttons[x-1][y-1].text));
+                        if(buttons[x-1][y-1].text.equals("")){
+                            buttons[x-1][y-1].setBackground(Color.lightGray);
+                        }
+                        buttons[x-1][y-1].clicked = true;
+                        remaining--;
+                        if(remaining == 0){
+                            OknoGlowne.setTitle("YOU WIN :)");
+                        }
+                        System.out.println("Remaining: "+remaining);
+                        if(field[x-1][y-1].minesAround == 0){
+                            fill(x-1, y-1);
+                        }
+                    }
+                }
+                if(y != field[0].length-1){
+                    if(!buttons[x-1][y+1].clicked){
+                        buttons[x-1][y+1].setText(String.valueOf(buttons[x-1][y+1].text));
+                        if(buttons[x-1][y+1].text.equals("")){
+                            buttons[x-1][y+1].setBackground(Color.lightGray);
+                        }
+                        buttons[x-1][y+1].clicked = true;
+                        remaining--;
+                        if(remaining == 0){
+                            OknoGlowne.setTitle("YOU WIN :)");
+                        }
+                        System.out.println("Remaining: "+remaining);
+                        if(field[x-1][y+1].minesAround == 0){
+                            fill(x-1, y+1);
+                        }
+                    }
+                }
+            }
+            if(y != 0){
+                if(!buttons[x][y-1].clicked){
+                    buttons[x][y-1].setText(String.valueOf(buttons[x][y-1].text));
+                    if(buttons[x][y-1].text.equals("")){
+                        buttons[x][y-1].setBackground(Color.lightGray);
+                    }
+                    buttons[x][y-1].clicked = true;
+                    remaining--;
+                    if(remaining == 0){
+                        OknoGlowne.setTitle("YOU WIN :)");
+                    }
+                    System.out.println("Remaining: "+remaining);
+                    if(field[x][y-1].minesAround == 0){
+                        fill(x, y-1);
+                    }
+                }
+            }
+            if(x != field.length-1){
+                if(!buttons[x+1][y].clicked){
+                    buttons[x+1][y].setText(String.valueOf(buttons[x+1][y].text));
+                    if(buttons[x+1][y].text.equals("")){
+                        buttons[x+1][y].setBackground(Color.lightGray);
+                    }
+                    buttons[x+1][y].clicked = true;
+                    remaining--;
+                    if(remaining == 0){
+                        OknoGlowne.setTitle("YOU WIN :)");
+                    }
+                    System.out.println("Remaining: "+remaining);
+                    if(field[x+1][y].minesAround == 0){
+                        fill(x+1, y);
+                    }
+                }
+                if(y != 0){
+                    if(!buttons[x+1][y-1].clicked){
+                        buttons[x+1][y-1].setText(String.valueOf(buttons[x+1][y-1].text));
+                        if(buttons[x+1][y-1].text.equals("")){
+                            buttons[x+1][y-1].setBackground(Color.lightGray);
+                        }
+                        buttons[x+1][y-1].clicked = true;
+                        remaining--;
+                        if(remaining == 0){
+                            OknoGlowne.setTitle("YOU WIN :)");
+                        }
+                        System.out.println("Remaining: "+remaining);
+                        if(field[x+1][y-1].minesAround == 0){
+                            fill(x+1, y-1);
+                        }
+                    }
+                }
+                if(y != field[0].length-1){
+                    if(!buttons[x+1][y+1].clicked){
+                        buttons[x+1][y+1].setText(String.valueOf(buttons[x+1][y+1].text));
+                        if(buttons[x+1][y+1].text.equals("")){
+                            buttons[x+1][y+1].setBackground(Color.lightGray);
+                        }
+                        buttons[x+1][y+1].clicked = true;
+                        remaining--;
+                        if(remaining == 0){
+                            OknoGlowne.setTitle("YOU WIN :)");
+                        }
+                        System.out.println("Remaining: "+remaining);
+                        if(field[x+1][y+1].minesAround == 0){
+                            fill(x+1, y+1);
+                        }
+                    }
+                }
+            }
+            if(y != field[0].length-1){
+                if(!buttons[x][y+1].clicked){
+                    buttons[x][y+1].setText(String.valueOf(buttons[x][y+1].text));
+                    if(buttons[x][y+1].text.equals("")){
+                        buttons[x][y+1].setBackground(Color.lightGray);
+                    }
+                    buttons[x][y+1].clicked = true;
+                    remaining--;
+                    if(remaining == 0){
+                        OknoGlowne.setTitle("YOU WIN :)");
+                    }
+                    System.out.println("Remaining: "+remaining);
+                    if(field[x][y+1].minesAround == 0){
+                        fill(x, y+1);
+                    }
+                }
+            }
+        }
     }
 
     void returnTable(Field[][] tab){
