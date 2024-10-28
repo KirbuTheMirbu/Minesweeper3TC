@@ -146,6 +146,81 @@ public class Game {
                 if(bttn.text.equals("0")){
                     bttn.text = "";
                 }
+                if(field[i][j].isMine){
+                    bttn.text = "M";
+                    bttn.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            if(SwingUtilities.isRightMouseButton(e)  && !bttn.clicked){
+                                if(bttn.ifFlagged){
+                                    bttn.setText("");
+                                    bttn.ifFlagged = false;
+                                    remainFlags++;
+                                }
+                                else if(remainFlags > 0){
+                                    bttn.setText("F");
+                                    bttn.ifFlagged = true;
+                                    remainFlags--;
+                                }
+                            } if (SwingUtilities.isLeftMouseButton(e)){
+                                if(!bttn.ifFlagged && !bttn.clicked){
+                                    for (int i = 0; i < field.length; i++) {
+                                        for (int j = 0; j < field[0].length; j++) {
+                                            buttons[i][j].clicked = true;
+                                            if(field[i][j].isMine){
+                                                buttons[i][j].setText("M");
+                                            }
+                                            else {
+                                                buttons[i][j].setText(String.valueOf(field[i][j].minesAround));
+                                            }
+
+                                        }
+                                    }
+                                    OknoGlowne.setTitle("YOU LOSE");
+                                }
+                            }
+                        }
+                    });
+                }
+                else {
+                    bttn.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            if(SwingUtilities.isRightMouseButton(e) && !bttn.clicked) {
+                                if(bttn.ifFlagged){
+                                    bttn.setText("");
+                                    bttn.ifFlagged = false;
+                                    remainFlags++;
+                                }
+                                else if(remainFlags > 0){
+                                    bttn.setText("F");
+                                    bttn.ifFlagged = true;
+                                    remainFlags--;
+                                }
+                            }
+                            else if (SwingUtilities.isLeftMouseButton(e) && !bttn.clicked) {
+                                if(!bttn.ifFlagged){
+                                    bttn.setText(bttn.text);
+                                    if(bttn.text.equals("")){
+                                        bttn.setBackground(Color.lightGray);
+                                    }
+                                    if(!bttn.clicked){
+                                        if(field[bttn.tabX][bttn.tabY].minesAround == 0){
+                                            fill(bttn.tabX, bttn.tabY);
+                                            remaining++;
+                                        }
+                                        bttn.clicked = true;
+                                        remaining--;
+                                        System.out.println("Remaining: "+remaining);
+                                    }
+                                    if(remaining == 0){
+                                        OknoGlowne.setTitle("YOU WIN :)");
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
                 switch (bttn.text){
                     case "1":
                         bttn.setForeground(Color.blue);
@@ -174,72 +249,6 @@ public class Game {
                     default:
                         bttn.setForeground(Color.BLACK);
                 }
-                if(field[i][j].isMine){
-                    bttn.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            if(SwingUtilities.isRightMouseButton(e)  && !bttn.clicked){
-                                if(bttn.ifFlagged){
-                                    bttn.setText("");
-                                    bttn.ifFlagged = false;
-                                    remainFlags++;
-                                }
-                                else if(remainFlags > 0){
-                                    bttn.setText("F");
-                                    bttn.ifFlagged = true;
-                                    remainFlags--;
-                                }
-                            } if (SwingUtilities.isLeftMouseButton(e)){
-                                for (int i = 0; i < field.length; i++) {
-                                    for (int j = 0; j < field[0].length; j++) {
-                                        if(field[i][j].isMine){
-                                            buttons[i][j].setText("M");
-                                        }
-                                        else {
-                                            buttons[i][j].setText(String.valueOf(field[i][j].minesAround));
-                                        }
-
-                                    }
-                                }
-                                OknoGlowne.setTitle("YOU LOSE");
-                            }
-                        }
-                    });
-                }
-                else {
-                    bttn.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            if(SwingUtilities.isRightMouseButton(e) && !bttn.clicked) {
-                                if(bttn.ifFlagged){
-                                    bttn.setText("");
-                                    bttn.ifFlagged = false;
-                                    remainFlags++;
-                                }
-                                else if(remainFlags > 0){
-                                    bttn.setText("F");
-                                    bttn.ifFlagged = true;
-                                    remainFlags--;
-                                }
-                            }
-                            else if (SwingUtilities.isLeftMouseButton(e)) {
-                                bttn.setText(bttn.text);
-                                if(bttn.text.equals("")){
-                                    bttn.setBackground(Color.lightGray);
-                                }
-                                if(!bttn.clicked){
-                                    fill(bttn.tabX, bttn.tabY);
-                                    bttn.clicked = true;
-                                    remaining--;
-                                    System.out.println("Remaining: "+remaining);
-                                }
-                                if(remaining == 0){
-                                    OknoGlowne.setTitle("YOU WIN :)");
-                                }
-                            }
-                        }
-                    });
-                }
 
                 bttn.setBounds(10+(j*sizee), 10+(i*sizee), sizee, sizee);
                 System.out.println(sizee);
@@ -259,6 +268,7 @@ public class Game {
         OknoGlowne.add(buttonPanel);
         OknoGlowne.repaint();
     }
+
 
     void fill(int x, int y){
         if(field[x][y].minesAround == 0){
