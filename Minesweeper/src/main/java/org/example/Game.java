@@ -88,6 +88,9 @@ public class Game {
                 field[tempX][tempY].isMine = true;
                 field[tempX][tempY].minesAround = -1;
             }
+            else {
+                i--;
+            }
         }
 
         for (int i = 0; i < field.length; i++) {
@@ -153,11 +156,13 @@ public class Game {
                         public void mousePressed(MouseEvent e) {
                             if(SwingUtilities.isRightMouseButton(e)  && !bttn.clicked){
                                 if(bttn.ifFlagged){
+                                    bttn.setForeground(bttn.curColor);
                                     bttn.setText("");
                                     bttn.ifFlagged = false;
                                     remainFlags++;
                                 }
                                 else if(remainFlags > 0){
+                                    bttn.setForeground(Color.BLACK);
                                     bttn.setText("F");
                                     bttn.ifFlagged = true;
                                     remainFlags--;
@@ -188,11 +193,13 @@ public class Game {
                         public void mousePressed(MouseEvent e) {
                             if(SwingUtilities.isRightMouseButton(e) && !bttn.clicked) {
                                 if(bttn.ifFlagged){
+                                    bttn.setForeground(bttn.curColor);
                                     bttn.setText("");
                                     bttn.ifFlagged = false;
                                     remainFlags++;
                                 }
                                 else if(remainFlags > 0){
+                                    bttn.setForeground(Color.BLACK);
                                     bttn.setText("F");
                                     bttn.ifFlagged = true;
                                     remainFlags--;
@@ -205,12 +212,12 @@ public class Game {
                                         bttn.setBackground(Color.lightGray);
                                     }
                                     if(!bttn.clicked){
+                                        bttn.clicked = true;
+                                        buttons[bttn.tabX][bttn.tabY].clicked = true;
+                                        remaining--;
                                         if(field[bttn.tabX][bttn.tabY].minesAround == 0){
                                             fill(bttn.tabX, bttn.tabY);
-                                            remaining++;
                                         }
-                                        bttn.clicked = true;
-                                        remaining--;
                                         System.out.println("Remaining: "+remaining);
                                     }
                                     if(remaining == 0){
@@ -224,30 +231,39 @@ public class Game {
                 switch (bttn.text){
                     case "1":
                         bttn.setForeground(Color.blue);
+                        bttn.curColor = Color.blue;
                         break;
                     case "2":
                         bttn.setForeground(Color.green);
+                        bttn.curColor = Color.green;
                         break;
                     case "3":
                         bttn.setForeground(Color.red);
+                        bttn.curColor = Color.red;
                         break;
                     case "4":
                         bttn.setForeground(Color.PINK);
+                        bttn.curColor = Color.pink;
                         break;
                     case "5":
                         bttn.setForeground(Color.orange);
+                        bttn.curColor = Color.orange;
                         break;
                     case "6":
                         bttn.setForeground(Color.cyan);
+                        bttn.curColor = Color.cyan;
                         break;
                     case "7":
                         bttn.setForeground(Color.YELLOW);
+                        bttn.curColor = Color.YELLOW;
                         break;
                     case "8":
                         bttn.setForeground(Color.GRAY);
+                        bttn.curColor = Color.gray;
                         break;
                     default:
                         bttn.setForeground(Color.BLACK);
+                        bttn.curColor = Color.BLACK;
                 }
 
                 bttn.setBounds(10+(j*sizee), 10+(i*sizee), sizee, sizee);
