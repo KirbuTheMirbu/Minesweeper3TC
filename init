@@ -10,12 +10,12 @@
 //6. Konstruktor                                               +
 //7. Overload(przeładowanie) + (override)(nadpisywanie)        +
 //8. this                                                      +
-//9. super                                                         -
+//9. super                                                     +
 //10. Dziedziczenie                                            +
 //11. Modyfikatory dostępu(private, protected, public)         +
 //12. Getter + Setter                                          +
 //13. Enkapsulacja                                             +
-//14. Polimorfizm                                                 -
-//15. Interface                                                   -
+//14. Polimorfizm                                              +
+//15. Interface                                                +
 //16. Abstract class, abstract function                        +
-//17. Class hierarchy                                             -
+//17. Class hierarchy                                          +
