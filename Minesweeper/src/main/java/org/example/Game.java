@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,21 +16,44 @@ public class Game {
     jframeFields[][] buttons;
     int mines;
     int remainFlags;
-    MyWindowType1 OknoGlowne = new MyWindowType1();
+    MyWindowType1 OknoGlowne;
     JPanel buttonPanel = new JPanel();
     int sizee;
     int remaining;
 
     Game(int dif) {
-        OknoGlowne.setVisible(true);
+        System.out.println("NEW GAME");
+
         if(dif == 3){
-            OknoGlowne.setSize(800, 500);
+            OknoGlowne = new MyWindowType1(800, 500);
         }
         else{
-            OknoGlowne.setSize(500, 500);
+            OknoGlowne = new MyWindowType1(500, 500);
         }
+        OknoGlowne.setVisible(true);
         OknoGlowne.setLocationRelativeTo(null);
         OknoGlowne.setTitle("Minesweeper");
+
+        buttonPanel.setLayout(null);
+
+        JButton returnMenu = new JButton("Return to menu");
+        returnMenu.setBounds(10, 420, 150, 30);
+        returnMenu.setFont(new Font("Arial", Font.PLAIN, 18));
+        returnMenu.setMargin(new Insets(0, 0, 0, 0));
+        returnMenu.setText("Return to menu");
+        returnMenu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(SwingUtilities.isLeftMouseButton(e)){
+                    OknoGlowne.setVisible(false);
+                    MainMenu menu = new MainMenu();
+                };
+            }
+
+        });
+        returnMenu.setLayout(buttonPanel.getLayout());
+        buttonPanel.add(returnMenu);
+        returnMenu.setVisible(true);
 
         //buttonPanel.setBounds(100, 100, 300, 300);
         /*JButton panel = new JButton("1");
@@ -133,14 +157,14 @@ public class Game {
 
             }
         }
-        returnTable(field);
+        //returnTable(field);
 
         writeTable();
     }
 
     private void writeTable() {
         buttons = new jframeFields[field.length][field[0].length];
-        buttonPanel.setLayout(null);
+
         OknoGlowne.add(buttonPanel);
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field[0].length; j++) {
@@ -172,11 +196,13 @@ public class Game {
                                     for (int i = 0; i < field.length; i++) {
                                         for (int j = 0; j < field[0].length; j++) {
                                             buttons[i][j].clicked = true;
+                                            buttons[i][i].setForeground(buttons[i][i].curColor);
                                             if(field[i][j].isMine){
                                                 buttons[i][j].setText("M");
                                             }
                                             else {
                                                 buttons[i][j].setText(String.valueOf(field[i][j].minesAround));
+
                                             }
 
                                         }
@@ -267,7 +293,7 @@ public class Game {
                 }
 
                 bttn.setBounds(10+(j*sizee), 10+(i*sizee), sizee, sizee);
-                System.out.println(sizee);
+                //System.out.println(sizee);
                 bttn.setFont(new Font("Arial", Font.PLAIN, 20));
                 bttn.setMargin(new Insets(0, 0, 0, 0));
                 bttn.setSize(sizee, sizee);
