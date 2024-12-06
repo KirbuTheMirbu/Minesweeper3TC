@@ -1,3 +1,21 @@
 //Michał Wójtowicz 
 //Szymon Marynowski
 //3TC grupa 2
+
+1. usuwanie zmiennych prostych oraz ref z RAM                +
+1. function return type                                      +
+2. Obiekt                                                    +
+3. pola(cechy, właściwości, atrybuty), stan, zachowanie      +
+4. Klasa                                                     +
+5. Konstruktor                                               +
+6. Overload(przeładowanie) + (override)(nadpisywanie)        +
+7. this                                                      +
+8. super                                                         -
+9. Dziedziczenie                                             +
+10. Modyfikatory dostępu(private, protected, public)         +
+11. Getter + Setter                                          +
+12. Enkapsulacja                                             +
+13. Polimorfizm                                                 -
+14. Interface                                                   -
+15. Abstract class, abstract function                           -
+16. Class hierarchy                                             -
