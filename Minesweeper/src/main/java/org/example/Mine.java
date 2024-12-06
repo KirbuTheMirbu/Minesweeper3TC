@@ -1,7 +1,7 @@
 package org.example;
 
-public class Field extends Abstract_Field {
-    Field(){
+public class Mine extends Abstract_Field{
+    Mine(){
         super();
         FieldDefinition();
     }
@@ -13,6 +13,6 @@ public class Field extends Abstract_Field {
 
     @Override
     public void FieldDefinition() {
-        setMine(false);
+        setMine(true);
     }
 }

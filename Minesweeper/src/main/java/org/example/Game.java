@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class Game {
     int difficulty;
-    Field[][] field;
+    Abstract_Field[][] field;
     jframeFields[][] buttons;
     int mines;
     int remainFlags;
@@ -78,25 +78,25 @@ public class Game {
         difficulty = dif;
         switch (difficulty) {
             case 1:
-                field = new Field[9][9];
+                field = new Abstract_Field[9][9];
                 mines = 10;
                 remainFlags = 10;
                 remaining = 9 * 9 - mines;
                 break;
             case 2:
-                field = new Field[16][16];
+                field = new Abstract_Field[16][16];
                 mines = 40;
                 remainFlags = 40;
                 remaining = 16 * 16 - mines;
                 break;
             case 3:
-                field = new Field[16][30];
+                field = new Abstract_Field[16][30];
                 mines = 99;
                 remainFlags = 99;
                 remaining = 16 * 30 - mines;
                 break;
             default:
-                field = new Field[100][100];
+                field = new Abstract_Field[100][100];
                 mines = 999;
                 remainFlags = 999;
                 remaining = 1000 * 1000 - mines;
@@ -108,9 +108,9 @@ public class Game {
             int tempX = rand.nextInt(field.length);
             int tempY = rand.nextInt(field[0].length);
             if(field[tempX][tempY] == null){
-                field[tempX][tempY] = new Field();
-                field[tempX][tempY].isMine = true;
-                field[tempX][tempY].minesAround = -1;
+                field[tempX][tempY] = new Mine();
+                field[tempX][tempY].setMine(true);
+                field[tempX][tempY].setMinesAround(-1);
             }
             else {
                 i--;
@@ -130,29 +130,40 @@ public class Game {
             for (int j = 0; j < field[0].length; j++) {
                 if (field[i][j] != null) {
                     if(i != 0){
-                        if(field[i-1][j].isMine){
-                            field[i][j].minesAround++;
+                        if(field[i-1][j].getisMine()){
+                            field[i][j].setMinesAround(field[i][j].getMinesAround() + 1);
                         }
                     }
                     if(i != field.length-1){
-                        if(field[i+1][j].isMine){
-                            field[i][j].minesAround++;
+                        if(field[i+1][j].getisMine()){
+                            field[i][j].setMinesAround(field[i][j].getMinesAround() + 1);
+
                         }
                     }
                     if(j != 0){
-                        if(field[i][j-1].isMine){
-                            field[i][j].minesAround++;
+                        if(field[i][j-1].getisMine()){
+                            field[i][j].setMinesAround(field[i][j].getMinesAround() + 1);
+
                         }
                     }
                     if(j != field[0].length-1){
-                        if(field[i][j+1].isMine){
-                            field[i][j].minesAround++;
+                        if(field[i][j+1].getisMine()){
+                            field[i][j].setMinesAround(field[i][j].getMinesAround() + 1);
+
                         }
                     }
-                    if(i != 0 && j != 0){if(field[i-1][j-1].isMine){field[i][j].minesAround++;}}
-                    if(i != 0 && j != field[0].length-1){if(field[i-1][j+1].isMine){field[i][j].minesAround++;}}
-                    if(i != field.length-1 && j != 0){if(field[i+1][j-1].isMine){field[i][j].minesAround++;}}
-                    if(i != field.length-1 && j != field[0].length-1){if(field[i+1][j+1].isMine){field[i][j].minesAround++;}}
+                    if(i != 0 && j != 0){if(field[i-1][j-1].getisMine()){
+                        field[i][j].setMinesAround(field[i][j].getMinesAround() + 1);
+                    }}
+                    if(i != 0 && j != field[0].length-1){if(field[i-1][j+1].getisMine()){
+                        field[i][j].setMinesAround(field[i][j].getMinesAround() + 1);
+                    }}
+                    if(i != field.length-1 && j != 0){if(field[i+1][j-1].getisMine()){
+                        field[i][j].setMinesAround(field[i][j].getMinesAround() + 1);
+                    }}
+                    if(i != field.length-1 && j != field[0].length-1){if(field[i+1][j+1].getisMine()){
+                        field[i][j].setMinesAround(field[i][j].getMinesAround() + 1);
+                    }}
                 }
 
             }
@@ -169,11 +180,11 @@ public class Game {
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field[0].length; j++) {
                 jframeFields bttn = new jframeFields(i, j);
-                bttn.text = String.valueOf(field[i][j].minesAround);
+                bttn.text = String.valueOf(field[i][j].getMinesAround());
                 if(bttn.text.equals("0")){
                     bttn.text = "";
                 }
-                if(field[i][j].isMine){
+                if(field[i][j].getisMine()){
                     bttn.text = "M";
                     bttn.addMouseListener(new MouseAdapter() {
                         @Override
@@ -197,11 +208,11 @@ public class Game {
                                         for (int j = 0; j < field[0].length; j++) {
                                             buttons[i][j].clicked = true;
                                             buttons[i][i].setForeground(buttons[i][i].curColor);
-                                            if(field[i][j].isMine){
+                                            if(field[i][j].getisMine()){
                                                 buttons[i][j].setText("M");
                                             }
                                             else {
-                                                buttons[i][j].setText(String.valueOf(field[i][j].minesAround));
+                                                buttons[i][j].setText(String.valueOf(field[i][j].getMinesAround()));
 
                                             }
 
@@ -241,7 +252,7 @@ public class Game {
                                         bttn.clicked = true;
                                         buttons[bttn.tabX][bttn.tabY].clicked = true;
                                         remaining--;
-                                        if(field[bttn.tabX][bttn.tabY].minesAround == 0){
+                                        if(field[bttn.tabX][bttn.tabY].getMinesAround() == 0){
                                             fill(bttn.tabX, bttn.tabY);
                                         }
                                         System.out.println("Remaining: "+remaining);
@@ -313,7 +324,7 @@ public class Game {
 
 
     void fill(int x, int y){
-        if(field[x][y].minesAround == 0){
+        if(field[x][y].getMinesAround() == 0){
             if(x != 0){
                 if(!buttons[x-1][y].clicked){
                     buttons[x-1][y].setText(String.valueOf(buttons[x-1][y].text));
@@ -326,7 +337,7 @@ public class Game {
                         OknoGlowne.setTitle("YOU WIN :)");
                     }
                     System.out.println("Remaining: "+remaining);
-                    if(field[x-1][y].minesAround == 0){
+                    if(field[x-1][y].getMinesAround() == 0){
                         fill(x-1, y);
                     }
                 }
@@ -342,7 +353,7 @@ public class Game {
                             OknoGlowne.setTitle("YOU WIN :)");
                         }
                         System.out.println("Remaining: "+remaining);
-                        if(field[x-1][y-1].minesAround == 0){
+                        if(field[x-1][y-1].getMinesAround() == 0){
                             fill(x-1, y-1);
                         }
                     }
@@ -359,7 +370,7 @@ public class Game {
                             OknoGlowne.setTitle("YOU WIN :)");
                         }
                         System.out.println("Remaining: "+remaining);
-                        if(field[x-1][y+1].minesAround == 0){
+                        if(field[x-1][y+1].getMinesAround() == 0){
                             fill(x-1, y+1);
                         }
                     }
@@ -377,7 +388,7 @@ public class Game {
                         OknoGlowne.setTitle("YOU WIN :)");
                     }
                     System.out.println("Remaining: "+remaining);
-                    if(field[x][y-1].minesAround == 0){
+                    if(field[x][y-1].getMinesAround() == 0){
                         fill(x, y-1);
                     }
                 }
@@ -394,7 +405,7 @@ public class Game {
                         OknoGlowne.setTitle("YOU WIN :)");
                     }
                     System.out.println("Remaining: "+remaining);
-                    if(field[x+1][y].minesAround == 0){
+                    if(field[x+1][y].getMinesAround() == 0){
                         fill(x+1, y);
                     }
                 }
@@ -410,7 +421,7 @@ public class Game {
                             OknoGlowne.setTitle("YOU WIN :)");
                         }
                         System.out.println("Remaining: "+remaining);
-                        if(field[x+1][y-1].minesAround == 0){
+                        if(field[x+1][y-1].getMinesAround() == 0){
                             fill(x+1, y-1);
                         }
                     }
@@ -427,7 +438,7 @@ public class Game {
                             OknoGlowne.setTitle("YOU WIN :)");
                         }
                         System.out.println("Remaining: "+remaining);
-                        if(field[x+1][y+1].minesAround == 0){
+                        if(field[x+1][y+1].getMinesAround() == 0){
                             fill(x+1, y+1);
                         }
                     }
@@ -445,7 +456,7 @@ public class Game {
                         OknoGlowne.setTitle("YOU WIN :)");
                     }
                     System.out.println("Remaining: "+remaining);
-                    if(field[x][y+1].minesAround == 0){
+                    if(field[x][y+1].getMinesAround() == 0){
                         fill(x, y+1);
                     }
                 }
@@ -458,11 +469,11 @@ public class Game {
             for (int j = 0; j < tab[i].length; j++) {
                 if (tab[i][j] == null){
                     System.out.print("0 ");
-                } else if (tab[i][j].isMine) {
+                } else if (tab[i][j].getisMine()) {
                     System.out.print("M ");
                 }
                 else {
-                    System.out.print(tab[i][j].minesAround+" ");
+                    System.out.print(tab[i][j].getMinesAround()+" ");
                 }
             }
             System.out.println("");
