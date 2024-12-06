@@ -2,20 +2,20 @@
 //Szymon Marynowski
 //3TC grupa 2
 
-1. usuwanie zmiennych prostych oraz ref z RAM                +
-1. function return type                                      +
-2. Obiekt                                                    +
-3. pola(cechy, właściwości, atrybuty), stan, zachowanie      +
-4. Klasa                                                     +
-5. Konstruktor                                               +
-6. Overload(przeładowanie) + (override)(nadpisywanie)        +
-7. this                                                      +
-8. super                                                         -
-9. Dziedziczenie                                             +
-10. Modyfikatory dostępu(private, protected, public)         +
-11. Getter + Setter                                          +
-12. Enkapsulacja                                             +
-13. Polimorfizm                                                 -
-14. Interface                                                   -
-15. Abstract class, abstract function                           -
-16. Class hierarchy                                             -
+//1. usuwanie zmiennych prostych oraz ref z RAM                +
+//2. function return type                                      +
+//3. Obiekt                                                    +
+//4. pola(cechy, właściwości, atrybuty), stan, zachowanie      +
+//5. Klasa                                                     +
+//6. Konstruktor                                               +
+//7. Overload(przeładowanie) + (override)(nadpisywanie)        +
+//8. this                                                      +
+//9. super                                                         -
+//10. Dziedziczenie                                            +
+//11. Modyfikatory dostępu(private, protected, public)         +
+//12. Getter + Setter                                          +
+//13. Enkapsulacja                                             +
+//14. Polimorfizm                                                 -
+//15. Interface                                                   -
+//16. Abstract class, abstract function                        +
+//17. Class hierarchy                                             -
